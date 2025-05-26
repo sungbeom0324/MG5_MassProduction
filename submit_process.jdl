@@ -1,0 +1,31 @@
+universe               = vanilla
+getenv                 = True
+executable             = run_TTW_DL_scratch.sh
+arguments              = $(Process)
+
+# Condor는 NFS로 MG5_BASE가 마운트돼 있으므로, 
+# initialdir를 /u/user/sucho/MG5_aMC_v3_5_8 로 그대로 둡니다.
+initialdir             = /u/user/sucho/MG5_aMC_v3_5_8
+
+log                    = condor_logs/TTW_DL_$(Process).log
+output                 = condor_logs/TTW_DL_$(Process).out
+error                  = condor_logs/TTW_DL_$(Process).err
+
+should_transfer_files  = YES
+transfer_input_files   = run_TTW_DL_scratch.sh
+# 결과물(Events)은 스크래치에 남기고, SE 복사는 사용자가 직접 합니다.
+#when_to_transfer_output= ON_EXIT
+#transfer_output_files  = TTW_DL_$(Process)/Events
+
+request_memory         = 2 GB
+request_cpus           = 8
+request_disk           = 10 GB
+
+#requirements           = (TARGET.Arch == "X86_64") && (TARGET.OpSys == "LINUX")
+
+requirements           = (TARGET.Arch == "X86_64") && \
+                         (TARGET.OpSys == "LINUX") && \
+                         (Machine != "dm01.knu.ac.kr") && \
+                         (Machine != "dm02.knu.ac.kr")
+
+queue 100
