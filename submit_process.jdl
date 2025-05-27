@@ -13,9 +13,6 @@ error                  = condor_logs/TTW_DL_$(Process).err
 
 should_transfer_files  = YES
 transfer_input_files   = run_TTW_DL_scratch.sh
-# 결과물(Events)은 스크래치에 남기고, SE 복사는 사용자가 직접 합니다.
-#when_to_transfer_output= ON_EXIT
-#transfer_output_files  = TTW_DL_$(Process)/Events
 
 request_memory         = 2 GB
 request_cpus           = 8
@@ -29,3 +26,10 @@ requirements           = (TARGET.Arch == "X86_64") && \
                          (Machine != "dm02.knu.ac.kr")
 
 queue 100
+
+# Re-submission example. Take anomalious job_process numbers from rename_files.sh log.
+#queue Process in (
+#33
+#36
+#43
+#)
