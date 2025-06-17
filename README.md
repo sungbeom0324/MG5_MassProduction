@@ -37,7 +37,7 @@ step 5. Transfer files to HYU/your_data_directory.
 
 ~~~
 
-@ HYU (Slurm Cluster)
+@ HYU (Slurm Cluster) \
 step 6. Delphes simulation in parallel.
 ~~~
 cd <your_data_directory>
