@@ -1,4 +1,6 @@
 #!/bin/bash
+# Usage : ./rename_files.sh <OUTDIR>
+# You may modify the number of expected sub_directories. Check bottom of this code.
 
 MODE="rename"
 if [ "$1" == "--dry-run" ]; then
@@ -18,10 +20,10 @@ if [ $# -ne 1 ]; then
 fi
 
 BASE=$1
-SCRATCH_DIR="/u/user/sucho/scratch"
-LOGFILE="./rename_log_${BASE}.txt"
+SE_DIR="/u/user/sucho/SE_UserHome/$BASE"
+LOGFILE="/u/user/sucho/MG5_aMC_v3_5_8/rename_log_${BASE}.txt"
 
-cd "$SCRATCH_DIR" || { echo "Cannot cd to $SCRATCH_DIR"; exit 1; }
+cd "$SE_DIR" || { echo "Cannot cd to $SE_DIR"; exit 1; }
 
 # ─────────────────────────── Undo mode
 if [ "$MODE" == "undo" ]; then
@@ -88,7 +90,7 @@ echo "" >> "$LOGFILE"
 echo "== Seed check ==" >> "$LOGFILE"
 
 TMPFILE=$(mktemp)
-for dir in "$SCRATCH_DIR"/${BASE}_*/Events/run_*_decayed_*; do
+for dir in "$SE_DIR"/${BASE}_*/Events/run_*_decayed_*; do
   [ -d "$dir" ] || continue
 
   parent_dir=$(basename "$(dirname "$(dirname "$dir")")")
@@ -140,25 +142,31 @@ fi
 rm "$TMPFILE"
 
 # ─────────────────────────── Subdir inconsistency summary (only if any)
-inconsistent_output=""
-common_count=$(printf "%s\n" "${SUBDIR_COUNTS[@]}" | sort | uniq -c | sort -nr | head -n1 | awk '{print $2}')
-for key in "${!SUBDIR_COUNTS[@]}"; do
-  count=${SUBDIR_COUNTS[$key]}
-  if [ "$count" -ne "$common_count" ]; then
-    inconsistent_output+="$key: $count subdirectories"$'\n'
-  fi
+# specify maximum queue (99) or sub-run number (3).
+echo "" >> "$LOGFILE"
+echo "== Missing run_01_X_decayed_1 directories ==" | tee -a "$LOGFILE"
+
+# LO
+for i in $(seq 0 249); do
+  for j in $(seq 0 1); do
+    d="${BASE}_${i}/Events/run_01_${j}_decayed_1"
+    if [ ! -d "$SE_DIR/$d" ]; then
+      echo "❌ Missing: $d" | tee -a "$LOGFILE"
+    fi
+  done
 done
 
-if [ -n "$inconsistent_output" ]; then
-  echo ""
-  echo "== Subdirectory count anomaly =="
-  echo "$inconsistent_output" | tee -a "$LOGFILE"
+# NLO
+'''
+for i in $(seq 0 99); do
+    d="${BASE}_${i}/Events/run_01_decayed_1"
+    if [ ! -d "$SE_DIR/$d" ]; then
+      echo "❌ Missing: $d" | tee -a "$LOGFILE"
+    fi
+done
+'''
 
-  echo "" >> "$LOGFILE"
-  echo "== Subdirectory count anomaly ==" >> "$LOGFILE"
-  echo "$inconsistent_output" >> "$LOGFILE"
-fi
-
+# Finished
 echo ""
 echo "[Done] Logfile saved to: $(realpath "$LOGFILE")"
 

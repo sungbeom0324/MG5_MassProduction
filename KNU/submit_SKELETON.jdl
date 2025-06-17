@@ -1,0 +1,32 @@
+# Copy this file and modify SKELETON. (vim command mode, :%s/SKELETON/TTW_DL/g)
+
+universe              = vanilla
+getenv                = True
+executable            = run_SKELETON.sh
+arguments             = $(Process)
+
+initialdir            = /your_MG5_path
+
+should_transfer_files = YES
+transfer_input_files  = run_SKELETON.sh, SKELETON_X/SKELETON_$(Process)
+
+transfer_output_files =
+
+log                   = condor_logs/SKELETON_$(Process).log
+output                = condor_logs/SKELETON_$(Process).out
+error                 = condor_logs/SKELETON_$(Process).err
+
+request_memory        = 4 GB      # Depends on your process.
+request_cpus          = 8         # Should match mg5_configuration.txt/nb_core & run_mode = 2
+request_disk          = 6 GB      # Expected output size. Normally 10k event ~ 1 GB.
+
+requirements          = (TARGET.Arch == "X86_64") && \
+                        (TARGET.OpSys == "LINUX")
+
+queue 100
+
+# If you want to resubmit specific runs..
+#queue Process in (
+#31
+#49
+#)
