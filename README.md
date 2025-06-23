@@ -1,7 +1,7 @@
 Generate 10Ms of events in hepmc.gz format using batch submission of MadGraph5_aMCNLO + Pythia8. \
 Example job scheduler is HTCondor in KNU server, Korea.
 
-### @ KNU (or any HTCondor cluster.) \
+### @ KNU (or any HTCondor cluster.) ###
 
 ### Step 0. Install MG5 and third party plug-ins [http://epp.hanyang.ac.kr/dokuwiki/doku.php?id=tutorial:madgraph] 
 ~~~
