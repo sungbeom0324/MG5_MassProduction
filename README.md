@@ -3,7 +3,7 @@ Generate 10Ms of events in hepmc.gz format using batch submission of MadGraph5_a
 Example job scheduler is HTCondor in KNU server, Korea.
 ___
 
-### @ KNU (or any HTCondor cluster.)
+### @ KNU (or any HTCondor)
 
 Step 0. Install MG5 and third party plug-ins [http://epp.hanyang.ac.kr/dokuwiki/doku.php?id=tutorial:madgraph] 
 ~~~
@@ -40,7 +40,7 @@ Step 5. Transfer files to HYU/your_remote_data_directory.
 ./transfer_files.sh TT <your_remote_data_directory/TT
 ~~~
 
-### @ HYU (Slurm Cluster)
+### @ HYU (or any Slurm)
 
 Step 6. Delphes simulation in parallel.
 ~~~
