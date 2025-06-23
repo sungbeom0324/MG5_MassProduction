@@ -37,7 +37,7 @@ Step 4. Rename hepmc.gz output, seed check, and production check all at once. Yo
 
 Step 5. Transfer files to HYU/your_remote_data_directory.
 ~~~
-./transfer_files.sh TT <your_remote_data_directory/TT
+./transfer_files.sh TT <your_remote_data_directory>/TT
 ~~~
 
 ### @ HYU (or any Slurm)
